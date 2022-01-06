@@ -2,8 +2,10 @@
 #define Mesa_h
 #include <iostream>
 #include "globals.h"
+//Mesa.h should include globals.h. (Even if History.h includes globals.h
 using namespace std;
-
+class Player;
+class Gark;
 class Mesa
 {
   public:

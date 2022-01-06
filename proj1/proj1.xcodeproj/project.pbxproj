@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		96F1474E2787832300874F55 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96F1474D2787832300874F55 /* main.cpp */; };
 		96F147562787836100874F55 /* Gark.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96F147542787836100874F55 /* Gark.cpp */; };
+		96F1475D278788C300874F55 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96F1475C278788C300874F55 /* Player.cpp */; };
+		96F1475F2787892500874F55 /* Mesa.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96F1475E2787892500874F55 /* Mesa.cpp */; };
+		96F147612787898C00874F55 /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96F147602787898C00874F55 /* Game.cpp */; };
+		96F1476327878B0100874F55 /* utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96F1476227878B0100874F55 /* utilities.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +35,11 @@
 		96F147572787842700874F55 /* Player.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 		96F14758278784C000874F55 /* Mesa.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Mesa.h; sourceTree = "<group>"; };
 		96F1475A278786D000874F55 /* globals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = globals.h; sourceTree = "<group>"; };
+		96F1475B278787FF00874F55 /* Game.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
+		96F1475C278788C300874F55 /* Player.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
+		96F1475E2787892500874F55 /* Mesa.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Mesa.cpp; sourceTree = "<group>"; };
+		96F147602787898C00874F55 /* Game.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
+		96F1476227878B0100874F55 /* utilities.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = utilities.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,8 +76,13 @@
 				96F147542787836100874F55 /* Gark.cpp */,
 				96F147552787836100874F55 /* Gark.h */,
 				96F147572787842700874F55 /* Player.h */,
+				96F1475C278788C300874F55 /* Player.cpp */,
 				96F14758278784C000874F55 /* Mesa.h */,
+				96F1475E2787892500874F55 /* Mesa.cpp */,
 				96F1475A278786D000874F55 /* globals.h */,
+				96F1475B278787FF00874F55 /* Game.h */,
+				96F147602787898C00874F55 /* Game.cpp */,
+				96F1476227878B0100874F55 /* utilities.cpp */,
 			);
 			path = proj1;
 			sourceTree = "<group>";
@@ -130,8 +144,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96F1476327878B0100874F55 /* utilities.cpp in Sources */,
 				96F147562787836100874F55 /* Gark.cpp in Sources */,
 				96F1474E2787832300874F55 /* main.cpp in Sources */,
+				96F1475D278788C300874F55 /* Player.cpp in Sources */,
+				96F1475F2787892500874F55 /* Mesa.cpp in Sources */,
+				96F147612787898C00874F55 /* Game.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
