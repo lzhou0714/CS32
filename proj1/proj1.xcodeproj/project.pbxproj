@@ -29,6 +29,8 @@
 		96F147542787836100874F55 /* Gark.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Gark.cpp; sourceTree = "<group>"; };
 		96F147552787836100874F55 /* Gark.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Gark.h; sourceTree = "<group>"; };
 		96F147572787842700874F55 /* Player.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
+		96F14758278784C000874F55 /* Mesa.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Mesa.h; sourceTree = "<group>"; };
+		96F1475A278786D000874F55 /* globals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = globals.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +67,8 @@
 				96F147542787836100874F55 /* Gark.cpp */,
 				96F147552787836100874F55 /* Gark.h */,
 				96F147572787842700874F55 /* Player.h */,
+				96F14758278784C000874F55 /* Mesa.h */,
+				96F1475A278786D000874F55 /* globals.h */,
 			);
 			path = proj1;
 			sourceTree = "<group>";

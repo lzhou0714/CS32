@@ -1,3 +1,5 @@
+#ifndef Gark_h
+#define Gark_h
 #include <iostream>
 using namespace std;
 class Mesa;
@@ -21,3 +23,5 @@ class Gark
     int   m_col;
     int   m_health;
 };
+
+#endif

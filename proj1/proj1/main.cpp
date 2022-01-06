@@ -7,22 +7,15 @@
 #include <cstdlib>
 #include "Gark.h"
 #include "Player.h"
+#include "Mesa.h"
+#include "globals.h"
 using namespace std;
 
 ///////////////////////////////////////////////////////////////////////////
 // Manifest constants
 ///////////////////////////////////////////////////////////////////////////
 
-const int MAXROWS = 20;             // max number of rows in the mesa
-const int MAXCOLS = 25;             // max number of columns in the mesa
-const int MAXGARKS = 150;           // max number of garks allowed
-const int INITIAL_GARK_HEALTH = 2;
 
-const int UP      = 0;
-const int DOWN    = 1;
-const int LEFT    = 2;
-const int RIGHT   = 3;
-const int NUMDIRS = 4;
 
 ///////////////////////////////////////////////////////////////////////////
 // Type definitions
@@ -34,35 +27,6 @@ class Mesa;  // This is needed to let the compiler know that Mesa is a
 
 
 
-class Mesa
-{
-  public:
-        // Constructor/destructor
-    Mesa(int nRows, int nCols);
-    ~Mesa();
-
-        // Accessors
-    int     rows() const;
-    int     cols() const;
-    Player* player() const;
-    int     garkCount() const;
-    int     numGarksAt(int r, int c) const;
-    bool    determineNewPosition(int& r, int& c, int dir) const;
-    void    display() const;
-
-        // Mutators
-    bool   addGark(int r, int c);
-    bool   addPlayer(int r, int c);
-    bool   attackGarkAt(int r, int c, int dir);
-    bool   moveGarks();
-
-  private:
-    int     m_rows;
-    int     m_cols;
-    Player* m_player;
-    Gark*   m_garks[MAXGARKS];
-    int     m_nGarks;
-};
 
 class Game
 {

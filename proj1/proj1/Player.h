@@ -1,3 +1,5 @@
+#ifndef Player_h
+#define Player_h
 #include <iostream>
 using namespace std;
 class Mesa;
@@ -25,3 +27,5 @@ class Player
     int   m_age;
     bool  m_dead;
 };
+
+#endif
