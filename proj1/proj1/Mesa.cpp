@@ -5,7 +5,7 @@
 #include <iostream>
 using namespace std;
 Mesa::Mesa(int nRows, int nCols)
- : m_rows(nRows), m_cols(nCols), m_player(nullptr), m_nGarks(0)
+ : m_rows(nRows), m_cols(nCols), m_player(nullptr), m_nGarks(0), m_history(nRows, nCols)
 {
     if (nRows <= 0  ||  nCols <= 0  ||  nRows > MAXROWS  ||  nCols > MAXCOLS)
     {
@@ -159,7 +159,11 @@ bool Mesa::attackGarkAt(int r, int c, int dir)
     for ( ; k < m_nGarks; k++)
     {
         if (m_garks[k]->row() == r  &&  m_garks[k]->col() == c)
+        {
+            m_history.record(m_player->row(), m_player->col());
             break;
+        }
+            //indicates that there is a gark here and will attack
     }
     if (k < m_nGarks  &&  m_garks[k]->getAttacked(dir))  // gark dies
     {
@@ -185,3 +189,7 @@ bool Mesa::moveGarks()
     return ! m_player->isDead();
 }
 
+History& Mesa::history()
+{
+    return m_history;
+};

@@ -2,10 +2,13 @@
 #define Mesa_h
 #include <iostream>
 #include "globals.h"
+#include "History.h"
+//#include "Player.h"
 //Mesa.h should include globals.h. (Even if History.h includes globals.h
 using namespace std;
-class Player;
+class Player  ;
 class Gark;
+//class History;
 class Mesa
 {
   public:
@@ -27,6 +30,7 @@ class Mesa
     bool   addPlayer(int r, int c);
     bool   attackGarkAt(int r, int c, int dir);
     bool   moveGarks();
+    History& history();
 
   private:
     int     m_rows;
@@ -34,6 +38,7 @@ class Mesa
     Player* m_player;
     Gark*   m_garks[MAXGARKS];
     int     m_nGarks;
+    History m_history;
 };
 
 #endif

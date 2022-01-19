@@ -66,7 +66,7 @@ void Game::play()
     while ( ! player->isDead()  &&  m_mesa->garkCount() > 0)
     {
         cout << endl;
-        cout << "Move (u/d/l/r/q or nothing): ";
+        cout << "Move (u/d/l/r/h/q or nothing): ";
         string action;
         getline(cin,action);
         if (action.size() == 0)  // player stands
@@ -78,6 +78,12 @@ void Game::play()
               default:   // if bad move, nobody moves
                 cout << '\a' << endl;  // beep
                 continue;
+                case 'h':
+                    m_mesa->history().display();
+                    cout << "Press enter to continue.";
+                    cin.ignore(10000,'\n');
+                    m_mesa->display();
+                    continue;
               case 'q':
                 return;
               case 'u':
