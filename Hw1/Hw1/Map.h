@@ -14,12 +14,7 @@ using ValueType = double;
 //using ValueType = std::string;
 const int DEFAULT_MAX_ITEMS = 260;
 
-struct MapItem
-{
-    public:
-        KeyType key;
-        ValueType value;
-};
+
 class Map
 {
   public:
@@ -47,6 +42,12 @@ class Map
 private:
 //    const int DEFAULT_MAX_ITEMS = 260;
     //important for spec
+    struct MapItem
+    {
+        public:
+            KeyType key;
+            ValueType value;
+    };
     MapItem itemsList[DEFAULT_MAX_ITEMS];
     int n_items;
 

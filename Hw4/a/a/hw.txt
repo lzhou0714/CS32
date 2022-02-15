@@ -1,0 +1,1 @@
+2. the insert function calls functions that check for the position to insert the new key value pair. However, since Coord is not a primitive data type, it does not have any predefined comparison operators. causing the program to crash.

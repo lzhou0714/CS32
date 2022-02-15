@@ -14,12 +14,7 @@ using ValueType = double;
 //using ValueType = std::string;
 const int DEFAULT_MAX_ITEMS = 260;
 
-struct MapItem
-{
-    public:
-        KeyType key;
-        ValueType value;
-};
+
 class Map
 {
   public:
@@ -52,12 +47,19 @@ class Map
     void swap(Map& other);
 
 private:
+struct MapItem
+{
+    public:
+        KeyType key;
+        ValueType value;
+};
 //    const int DEFAULT_MAX_ITEMS = 260;
     //important for spec
     int n_items;
     int maxSize;
     MapItem* itemsList;
-    
+
+
 //    MapItem itemsList[maxSize];
 
     //self added help functions
