@@ -2,23 +2,28 @@
 #define ACTOR_H_
 
 #include "GraphObject.h"
+//#include "StudentWorld.h"
+class StudentWorld;
 class Actor: public GraphObject
 {
 public:
-    Actor(int imageID, int startX, int startY, int startDirection, int depth, bool isAlive);
+    Actor(int imageID, int startX, int startY, int startDirection, int depth, bool isAlive, StudentWorld* world );
     virtual ~Actor() {};
     virtual void doSomething() = 0;
+    bool isAlive() {return m_alive;}
+    StudentWorld* getWorld() const {return m_world;}
     
 private:
     bool m_alive;
+    StudentWorld *m_world;
     
 };
 class Peach: public Actor
 {
 public:
-    Peach(int startX, int startY);
+    Peach(int startX, int startY, StudentWorld* world  );
     virtual ~Peach() {};
-    virtual void doSomething() {};
+    virtual void doSomething();
 
 private:
     bool m_inv;
@@ -32,7 +37,7 @@ private:
 class Block: public Actor
 {
 public:
-    Block(int startX, int startY): Actor(IID_BLOCK, startX, startY,  0, 2, true) {}
+    Block(int startX, int startY,StudentWorld* world ): Actor(IID_BLOCK, startX, startY,  0, 2, true, world ) {}
     virtual ~Block() {};
     virtual void doSomething() {};
 private:

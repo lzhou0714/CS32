@@ -6,6 +6,7 @@
 #include <string>
 #include <list>
 #include "Actor.h"
+
 using namespace std;
 // Students:  Add code to this file, StudentWorld.cpp, Actor.h, and Actor.cpp
 
@@ -19,7 +20,10 @@ public:
 
 private:
     list<Actor*> m_gameActors;
+    list<Actor*> :: iterator it;
     Peach* m_player;
+    
+    void placeObjects(Level lev);
     
     
 };
