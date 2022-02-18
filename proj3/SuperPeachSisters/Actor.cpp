@@ -1,12 +1,14 @@
 #include "Actor.h"
-//#include "StudentWorld.h"
+#include "StudentWorld.h"
 
 // Students:  Add code to this file, Actor.h, StudentWorld.h, and StudentWorld.cpp
 
 //Actor
-Actor::Actor(int imageID, int startX, int startY, int startDirection, int depth, bool isAlive,StudentWorld* word ): GraphObject(imageID, startX, startY, startDirection, depth, 1)
+
+Actor::Actor(int imageID, int startX, int startY, int startDirection, int depth, bool isAlive,StudentWorld* world ): GraphObject(imageID, startX, startY, startDirection, depth, 1)
 {
     m_alive = isAlive;
+    m_world = world;
     
 }
 
@@ -20,10 +22,34 @@ Peach::Peach(int startX, int startY,StudentWorld* world ):
     m_shootPower = false;
     m_jumpPower = false;
 }
+
+
 void Peach::doSomething()
 {
     if (!isAlive())
         return;
+    int val;
+    if (getWorld()->getKey(val))
+    {
+        switch(val)
+        {
+            case KEY_PRESS_LEFT:
+            {
+                setDirection(180);
+                moveTo(getX()-4, getY());
+                break;
+            }
+            case KEY_PRESS_RIGHT:
+            {
+                setDirection(0);
+                moveTo(getX()+4, getY());
+
+                
+                break;
+            }
+
+        }
+    }
 //    if (ge)
 //        
     

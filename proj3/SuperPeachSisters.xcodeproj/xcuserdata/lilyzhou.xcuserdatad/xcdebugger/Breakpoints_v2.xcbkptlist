@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "628BEF11-379B-4DAA-AB24-FC98721A17DC"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CED0BEC2-3B7D-4A0E-97D7-C2C818A8C6C7"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SuperPeachSisters/StudentWorld.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "StudentWorld::placeObjects(lev)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2BFC568E-8607-4C28-BA9C-2C161C8567F8"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SuperPeachSisters/StudentWorld.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
+            landmarkName = "StudentWorld::placeObjects(lev)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "2BFC568E-8607-4C28-BA9C-2C161C8567F8 - 56daa981d46fbfa2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "StudentWorld::placeObjects(Level)"
+                  moduleName = "SuperPeachSisters"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lilyzhou/Desktop/CS32/proj3/SuperPeachSisters/StudentWorld.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "89"
+                  endingLineNumber = "89"
+                  offsetFromSymbolStart = "208">
+               </Location>
+               <Location
+                  uuid = "2BFC568E-8607-4C28-BA9C-2C161C8567F8 - 56daa981d46fbfa2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "StudentWorld::placeObjects(Level)"
+                  moduleName = "SuperPeachSisters"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lilyzhou/Desktop/CS32/proj3/SuperPeachSisters/StudentWorld.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "89"
+                  endingLineNumber = "89"
+                  offsetFromSymbolStart = "368">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "04C855F2-5449-40C7-9CDD-F73395719778"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SuperPeachSisters/StudentWorld.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "87"
+            endingLineNumber = "87"
+            landmarkName = "StudentWorld::placeObjects(lev)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "04C855F2-5449-40C7-9CDD-F73395719778 - 56daa981d46fbfa2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "StudentWorld::placeObjects(Level)"
+                  moduleName = "SuperPeachSisters"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lilyzhou/Desktop/CS32/proj3/SuperPeachSisters/StudentWorld.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "89"
+                  endingLineNumber = "89"
+                  offsetFromSymbolStart = "208">
+               </Location>
+               <Location
+                  uuid = "04C855F2-5449-40C7-9CDD-F73395719778 - 56daa981d46fbfa2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "StudentWorld::placeObjects(Level)"
+                  moduleName = "SuperPeachSisters"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lilyzhou/Desktop/CS32/proj3/SuperPeachSisters/StudentWorld.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "89"
+                  endingLineNumber = "89"
+                  offsetFromSymbolStart = "368">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
