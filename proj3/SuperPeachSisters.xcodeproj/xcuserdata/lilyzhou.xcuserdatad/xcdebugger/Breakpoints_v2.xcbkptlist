@@ -14,58 +14,10 @@
             filePath = "SuperPeachSisters/StudentWorld.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
             landmarkName = "StudentWorld::placeObjects(lev)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "2BFC568E-8607-4C28-BA9C-2C161C8567F8"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SuperPeachSisters/StudentWorld.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
-            landmarkName = "StudentWorld::placeObjects(lev)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "2BFC568E-8607-4C28-BA9C-2C161C8567F8 - 56daa981d46fbfa2"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "StudentWorld::placeObjects(Level)"
-                  moduleName = "SuperPeachSisters"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lilyzhou/Desktop/CS32/proj3/SuperPeachSisters/StudentWorld.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "89"
-                  endingLineNumber = "89"
-                  offsetFromSymbolStart = "208">
-               </Location>
-               <Location
-                  uuid = "2BFC568E-8607-4C28-BA9C-2C161C8567F8 - 56daa981d46fbfa2"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "StudentWorld::placeObjects(Level)"
-                  moduleName = "SuperPeachSisters"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lilyzhou/Desktop/CS32/proj3/SuperPeachSisters/StudentWorld.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "89"
-                  endingLineNumber = "89"
-                  offsetFromSymbolStart = "368">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -78,8 +30,8 @@
             filePath = "SuperPeachSisters/StudentWorld.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
             landmarkName = "StudentWorld::placeObjects(lev)"
             landmarkType = "7">
             <Locations>
@@ -114,6 +66,22 @@
                   offsetFromSymbolStart = "368">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0F05DEB5-6BA8-4256-BBE6-1D1DCD10B6A3"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SuperPeachSisters/StudentWorld.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
+            landmarkName = "StudentWorld::move()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

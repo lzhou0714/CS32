@@ -36,25 +36,30 @@ void Peach::doSomething()
             case KEY_PRESS_LEFT:
             {
                 setDirection(180);
-                moveTo(getX()-4, getY());
+                if (!getWorld()->positionBlocked(getX()-4, getY() ,this))
+                    moveTo(getX()-4, getY());
                 break;
             }
             case KEY_PRESS_RIGHT:
             {
                 setDirection(0);
-                moveTo(getX()+4, getY());
-
-                
+                if (!getWorld()->positionBlocked(getX()+4, getY(), this))
+                    moveTo(getX()+4, getY());
                 break;
             }
-
+            case KEY_PRESS_DOWN:
+            {
+                if (!getWorld()->positionBlocked(getX(), getY()-4, this))
+                    moveTo(getX(), getY()-4);
+                break;
+            }
+            case KEY_PRESS_UP:
+            {
+                if (!getWorld()->positionBlocked(getX(), getY()+4, this))
+                    moveTo(getX(), getY()+4);
+                break;
+            }
         }
+        
     }
-//    if (ge)
-//        
-    
 }
-
-//Block
-//void Block::doSomething()
-//{}

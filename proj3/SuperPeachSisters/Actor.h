@@ -8,9 +8,9 @@ class Actor: public GraphObject
 {
 public:
     Actor(int imageID, int startX, int startY, int startDirection, int depth, bool isAlive, StudentWorld* world );
-    virtual ~Actor() {};
     virtual void doSomething() = 0;
     bool isAlive() {return m_alive;}
+    virtual bool isStructure(){return false;}//things that are structures can't overlap
     StudentWorld* getWorld() const {return m_world;}
     
 private:
@@ -22,7 +22,6 @@ class Peach: public Actor
 {
 public:
     Peach(int startX, int startY, StudentWorld* world  );
-    virtual ~Peach() {};
     virtual void doSomething();
 
 private:
@@ -38,8 +37,8 @@ class Block: public Actor
 {
 public:
     Block(int startX, int startY,StudentWorld* world ): Actor(IID_BLOCK, startX, startY,  0, 2, true, world ) {}
-    virtual ~Block() {};
     virtual void doSomething() {};
+    virtual bool isStructure(){return true;}
 private:
 
 };

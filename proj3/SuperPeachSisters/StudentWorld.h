@@ -14,15 +14,16 @@ class StudentWorld : public GameWorld
 {
 public:
   StudentWorld(std::string assetPath);
+    ~StudentWorld() { cleanUp(); }
   virtual int init();
   virtual int move();
   virtual void cleanUp();
+    bool positionBlocked(int x,int y, Actor* object);
 
 private:
     list<Actor*> m_gameActors;
     list<Actor*> :: iterator it;
     Peach* m_player;
-    
     void placeObjects(Level lev);
     
     
