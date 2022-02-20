@@ -4,6 +4,7 @@
 #include "GraphObject.h"
 //#include "StudentWorld.h"
 class StudentWorld;
+
 class Actor: public GraphObject
 {
 public:
@@ -12,12 +13,14 @@ public:
     bool isAlive() {return m_alive;}
     virtual bool isStructure(){return false;}//things that are structures can't overlap
     StudentWorld* getWorld() const {return m_world;}
-    
+  
 private:
     bool m_alive;
     StudentWorld *m_world;
     
 };
+
+//Peach///////////////////////
 class Peach: public Actor
 {
 public:
@@ -33,6 +36,7 @@ private:
 
 };
 
+//Block///////////////////////////////////////
 class Block: public Actor
 {
 public:

@@ -3,7 +3,7 @@
 
 // Students:  Add code to this file, Actor.h, StudentWorld.h, and StudentWorld.cpp
 
-//Actor
+//Actor//////////////////////////////
 
 Actor::Actor(int imageID, int startX, int startY, int startDirection, int depth, bool isAlive,StudentWorld* world ): GraphObject(imageID, startX, startY, startDirection, depth, 1)
 {
@@ -12,7 +12,7 @@ Actor::Actor(int imageID, int startX, int startY, int startDirection, int depth,
     
 }
 
-//Peach
+//Peach//////////////////////////
 Peach::Peach(int startX, int startY,StudentWorld* world ):
     Actor(IID_PEACH, startX, startY,  0, 0, true , world )
 {
