@@ -1,1 +1,3 @@
 2. the insert function calls functions that check for the position to insert the new key value pair. However, since Coord is not a primitive data type, it does not have any predefined comparison operators. causing the program to crash.
+
+3e. when an item is added to a vector, the vector's memory may be shuffled around, causing the iterator to not be pointing at the correct location. As such, when we increment the iterator, it goes to random memory locations that hold values that are not equal to MAGIC and causing test 3 to fail.

@@ -4,13 +4,12 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
-
 #include "Level.h"
 using namespace std;
 
 GameWorld* createStudentWorld(string assetPath)
 {
-	return new StudentWorld(assetPath);
+    return new StudentWorld(assetPath);
 }
 
 // Students:  Add code to this file, StudentWorld.h, Actor.h, and Actor.cpp
@@ -29,6 +28,7 @@ int StudentWorld::init()
     ostringstream fileTitle;
     fileTitle << "level";
     fileTitle.fill('0');
+
     fileTitle << setw(2) << currLvl << ".txt";
     string level_file = fileTitle.str();
     cerr <<  "levels " << level_file << endl;
@@ -62,9 +62,43 @@ void StudentWorld::placeObjects(Level lev)
                 m_player = new Peach(i*SPRITE_WIDTH,j*SPRITE_HEIGHT,this);
                 break;
             case Level::block:
-                m_gameActors.push_back(new Block(i*SPRITE_WIDTH,j*SPRITE_HEIGHT,this));
+                m_gameActors.push_back(new Block(i*SPRITE_WIDTH,j*SPRITE_HEIGHT,this,0));
                 break;
-                
+            case Level::pipe:
+                m_gameActors.push_back(new Pipe(i*SPRITE_WIDTH,j*SPRITE_HEIGHT,this));
+                break;
+            case Level::flag:
+                m_gameActors.push_back(new Flag(i*SPRITE_WIDTH,j*SPRITE_HEIGHT,this));
+                break;
+            case Level::mario:
+                m_gameActors.push_back(new Mario(i*SPRITE_WIDTH,j*SPRITE_HEIGHT,this));
+                break;
+            case Level::flower_goodie_block:
+                m_gameActors.push_back(new Block(i*SPRITE_WIDTH,j*SPRITE_HEIGHT,this,1));
+
+                break;
+            case Level::star_goodie_block:                m_gameActors.push_back(new Block(i*SPRITE_WIDTH,j*SPRITE_HEIGHT,this,2));
+
+                break;
+            case Level::mushroom_goodie_block:
+                m_gameActors.push_back(new Block(i*SPRITE_WIDTH,j*SPRITE_HEIGHT,this,3));
+
+                break;
+            case Level::goomba:
+                m_gameActors.push_back(new Goombas(i*SPRITE_WIDTH,j*SPRITE_HEIGHT,this, 180*(rand()%2)));
+
+                break;
+            case Level::koopa:
+                m_gameActors.push_back(new Koopas(i*SPRITE_WIDTH,j*SPRITE_HEIGHT,this, 180*(rand()%2)));
+
+                break;
+            case Level::piranha:
+                m_gameActors.push_back(new Piranhas(i*SPRITE_WIDTH,j*SPRITE_HEIGHT,this, 180*(rand()%2)));
+
+                break;
+            
+            
+            
         }
     }
 }
@@ -88,31 +122,29 @@ void StudentWorld::cleanUp()
         delete actor;
 }
 
-bool StudentWorld::positionBlocked(int x, int y, Actor* object )
+bool StudentWorld::positionBlocked(int x, int y)
 {
-    int x11 = x;
-    int x12 = x  + SPRITE_WIDTH-1;
-    int y11 = y;
-    int y12 = y+ SPRITE_HEIGHT-1;
     
     for(auto const& actor : m_gameActors)
     {
-        
-        int x21 = actor->getX();
-        int x22 = actor->getX()  + SPRITE_WIDTH-1;
-        int y21 = actor->getY();
-        int y22 = actor->getY()+ SPRITE_HEIGHT-1;
-        
+//        if (actor->isStructure())
+//        {
+//            if (actor->getX() <= x+SPRITE_WIDTH-1 && actor->getX() >= x && actor->getY() <= y+SPRITE_HEIGHT-1 && actor->getY() >= y)
+//                return true;
+//            if (actor->getX()+SPRITE_WIDTH-1 <=x+SPRITE_WIDTH-1 && actor->getX()+SPRITE_WIDTH-1 >= x && actor->getY() <= y+SPRITE_HEIGHT-1 && actor->getY() >= y)
+//                return true;
+//            if (actor->getX()+SPRITE_WIDTH-1 <= x+SPRITE_WIDTH-1 && actor->getX() + SPRITE_WIDTH-1 >= x && actor->getY()+SPRITE_HEIGHT-1 <= y+SPRITE_HEIGHT-1 && actor->getY()+SPRITE_HEIGHT-1 >= y)
+//                return true;
+//            if (actor->getX() <= x+SPRITE_WIDTH-1 && actor->getX()>= x && actor->getY()+SPRITE_HEIGHT-1 <= y+SPRITE_HEIGHT-1 && actor->getY()+SPRITE_HEIGHT-1 >= y)
+//                return true;
+//        }
         if (actor->isStructure())
         {
-            if (x21 <= x12 && x21 >= x11 && y21 <= y12 && y21 >= y11)
-                return true;
-            if (x22 <=x12 && x22 >= x11 && y21 <= y12 && y21 >= y11)
-                return true;
-            if (x22 <= x12 && x22 >= x11 && y22 <= y12 && y22 >= y11)
-                return true;
-            if (x21 <= x12 && x21 >= x11 && y22 <= y12 && y22 >= y11)
-                return true;
+            if (x < actor->getX()+SPRITE_WIDTH-1 && x+SPRITE_WIDTH-1 > actor->getX())
+            {
+                if (y < actor->getY()+SPRITE_WIDTH-1 && y+SPRITE_WIDTH-1 > actor->getY())
+                    return true;
+            }
         }
     }
     return false;

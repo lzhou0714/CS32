@@ -18,7 +18,7 @@ public:
   virtual int init();
   virtual int move();
   virtual void cleanUp();
-    bool positionBlocked(int x,int y, Actor* object);
+    bool positionBlocked(int x,int y);
 
 private:
     list<Actor*> m_gameActors;

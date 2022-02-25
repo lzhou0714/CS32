@@ -30,8 +30,8 @@
             filePath = "SuperPeachSisters/StudentWorld.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
             landmarkName = "StudentWorld::placeObjects(lev)"
             landmarkType = "7">
             <Locations>
@@ -78,10 +78,90 @@
             filePath = "SuperPeachSisters/StudentWorld.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
+            startingLineNumber = "105"
+            endingLineNumber = "105"
             landmarkName = "StudentWorld::move()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7C600A47-1E97-452C-A411-041378C20BC0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SuperPeachSisters/Actor.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "30"
+            endingLineNumber = "30"
+            landmarkName = "Peach::jumping()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2AB62FCF-AD75-4527-96C6-8DA009075312"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SuperPeachSisters/Actor.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "Structure"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A3DF2CDB-E571-4EE1-A6A2-58E75C29FAB0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SuperPeachSisters/Actor.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "18"
+            endingLineNumber = "18"
+            landmarkName = "Peach::Peach(startX, startY, world)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "A3DF2CDB-E571-4EE1-A6A2-58E75C29FAB0 - d96a9b6d7feb31ee"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Peach::Peach(int, int, StudentWorld*)"
+                  moduleName = "SuperPeachSisters"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lilyzhou/Desktop/CS32/proj3/SuperPeachSisters/Actor.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17"
+                  offsetFromSymbolStart = "52">
+               </Location>
+               <Location
+                  uuid = "A3DF2CDB-E571-4EE1-A6A2-58E75C29FAB0 - d96a9b6d7feb31c9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Peach::Peach(int, int, StudentWorld*)"
+                  moduleName = "SuperPeachSisters"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lilyzhou/Desktop/CS32/proj3/SuperPeachSisters/Actor.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "18"
+                  endingLineNumber = "18"
+                  offsetFromSymbolStart = "36">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
