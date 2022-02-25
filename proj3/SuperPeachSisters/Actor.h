@@ -11,7 +11,11 @@ public:
     Actor(int imageID, int startX, int startY, int startDirection, int depth, StudentWorld* world );
     virtual ~Actor() {}
     virtual void doSomething() = 0;
+    virtual void bonk() = 0;
+    
     bool isAlive() {return m_alive;}
+    void setAlive(bool status) {m_alive = status;}
+    bool isTarget() {return false;}
     virtual bool isStructure(){return false;}//things that are structures can't overlap
     StudentWorld* getWorld() const {return m_world;}
   
@@ -28,6 +32,7 @@ public:
     Peach(int startX, int startY, StudentWorld* world  );
     virtual ~Peach() {}
     virtual void doSomething();
+    virtual void bonk() {};
     
 
 private:
@@ -37,7 +42,6 @@ private:
     bool m_shootPower;
     bool m_jumpPower;
     int remaining_jump_distance;
-    
     void jumping();
     void falling();
 
@@ -49,6 +53,8 @@ public:
     virtual ~Structure() {};
     virtual void doSomething() {};
     virtual bool isStructure(){return true;}
+    virtual void bonk() {};
+
 };
 
 
@@ -58,9 +64,10 @@ class Block: public Structure
 public:
     Block(int startX, int startY,StudentWorld* world,int special);
     virtual ~Block() {}
+    virtual void bonk();
     
 private:
-//    bool m_powerUps;
+    bool m_powerUps;
     bool m_star;
     bool m_shroom;
     bool m_flower;
@@ -84,6 +91,8 @@ class Target: public Actor
 public:
     Target(int imageID, int startX, int startY,StudentWorld* world): Actor(imageID, startX, startY,  0, 1, world){}
     virtual ~Target() {};
+    virtual bool isTarget(){return true;}
+    virtual void bonk() {};
     virtual void doSomething() {};
 
 };
@@ -92,6 +101,8 @@ class Flag: public Target
 public:
     Flag(int startX, int startY, StudentWorld* world ): Target( IID_FLAG, startX, startY,world){}
     virtual ~Flag() {};
+    virtual void bonk();
+
     virtual void doSomething() {};
 
 };
@@ -101,6 +112,7 @@ public:
     Mario(int startX, int startY, StudentWorld* world ): Target(IID_MARIO, startX, startY,world){}
     virtual ~Mario() {};
     virtual void doSomething() {};
+    virtual void bonk();
     
 };
 
@@ -110,6 +122,7 @@ class PowerUps: public Actor
 public:
     PowerUps(int imageID, int startX, int startY,StudentWorld* world): Actor(imageID, startX, startY,  0, 1, world){}
     virtual ~PowerUps() {};
+    virtual void bonk() {};
     virtual void doSomething() {};
 
 };
@@ -143,6 +156,7 @@ class Projectiles: public Actor
 public:
     Projectiles(int imageID, int startX, int startY,StudentWorld* world, int dir): Actor(imageID, startX, startY,  dir, 1, world){}
     virtual ~Projectiles() {};
+    virtual void bonk() {};
     virtual void doSomething() {};
 };
 class PeachFireBalls: public Projectiles
@@ -169,6 +183,7 @@ public:
     virtual void doSomething() {};
 };
 
+
 //enemies////////////
 class Enemies: public Actor
 {
@@ -177,6 +192,8 @@ public:
     //direction randomly chosen to be either 0 or 180
     virtual ~Enemies() {};
     virtual void doSomething() {};
+    virtual void bonk() {};
+
 };
 class Goombas: public Enemies
 {

@@ -19,12 +19,19 @@ public:
   virtual int move();
   virtual void cleanUp();
     bool positionBlocked(int x,int y);
+    void addActor(Actor* actor);
+    void endgame(){m_gameComplete = true;}
+    void nextLevel() {m_levelComplete = true;}
 
 private:
     list<Actor*> m_gameActors;
     list<Actor*> :: iterator it;
     Peach* m_player;
     void placeObjects(Level lev);
+    bool m_gameComplete;
+    bool m_levelComplete;
+//    int m_targetX;
+//    int m_targetY;
     
     
 };

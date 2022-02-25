@@ -19,10 +19,16 @@ StudentWorld::StudentWorld(string assetPath)
 {
     it = m_gameActors.begin();
     m_player = nullptr;
+    m_gameComplete = false;
+    m_levelComplete = false;
 }
 
 int StudentWorld::init()
 {
+    
+    m_gameComplete = false;
+    m_levelComplete = false;
+    
     Level lev(assetPath());
     int currLvl  = getLevel();
     ostringstream fileTitle;
@@ -44,7 +50,6 @@ int StudentWorld::init()
 
     return GWSTATUS_CONTINUE_GAME;
 }
-
 void StudentWorld::placeObjects(Level lev)
 {
 
@@ -69,9 +74,13 @@ void StudentWorld::placeObjects(Level lev)
                 break;
             case Level::flag:
                 m_gameActors.push_back(new Flag(i*SPRITE_WIDTH,j*SPRITE_HEIGHT,this));
+//                m_targetX = i*SPRITE_WIDTH;
+//                m_targetY = j*SPRITE_HEIGHT;
                 break;
             case Level::mario:
                 m_gameActors.push_back(new Mario(i*SPRITE_WIDTH,j*SPRITE_HEIGHT,this));
+//                m_targetX = i*SPRITE_WIDTH;
+//                m_targetY = j*SPRITE_HEIGHT;
                 break;
             case Level::flower_goodie_block:
                 m_gameActors.push_back(new Block(i*SPRITE_WIDTH,j*SPRITE_HEIGHT,this,1));
@@ -90,15 +99,11 @@ void StudentWorld::placeObjects(Level lev)
                 break;
             case Level::koopa:
                 m_gameActors.push_back(new Koopas(i*SPRITE_WIDTH,j*SPRITE_HEIGHT,this, 180*(rand()%2)));
-
+            
                 break;
             case Level::piranha:
                 m_gameActors.push_back(new Piranhas(i*SPRITE_WIDTH,j*SPRITE_HEIGHT,this, 180*(rand()%2)));
-
                 break;
-            
-            
-            
         }
     }
 }
@@ -108,18 +113,46 @@ int StudentWorld::move()
     // Notice that the return value GWSTATUS_PLAYER_DIED will cause our framework to end the current level.
     
     m_player->doSomething();
-    for (auto const& actors: m_gameActors)
+    for (auto const& actor: m_gameActors)
     {
-        actors->doSomething();
+        if (actor->isAlive())
+        {
+            actor->doSomething();
+            if (!m_player->isAlive())
+            {
+                playSound(SOUND_PLAYER_DIE);
+                return GWSTATUS_PLAYER_DIED;
+            }
+            //need something here to check for overlap with targts
+            if (m_gameComplete)
+            {
+                cerr << "reached mario" <<  endl;
+                playSound(SOUND_GAME_OVER);
+                return GWSTATUS_PLAYER_WON;
+            }
+            if (m_levelComplete)
+            {
+                cerr << "reached flag" << endl;
+                playSound(SOUND_FINISHED_LEVEL);
+                return GWSTATUS_FINISHED_LEVEL;
+            }
+            
+                
+
+        }
     }
     return GWSTATUS_CONTINUE_GAME;
 }
 
 void StudentWorld::cleanUp()
 {
+    m_gameComplete = false;
+    m_levelComplete = false;
+
     delete m_player;
     for (auto const& actor :  m_gameActors)
         delete actor;
+    m_gameActors.clear();
 }
 
 bool StudentWorld::positionBlocked(int x, int y)
@@ -127,26 +160,36 @@ bool StudentWorld::positionBlocked(int x, int y)
     
     for(auto const& actor : m_gameActors)
     {
-//        if (actor->isStructure())
-//        {
-//            if (actor->getX() <= x+SPRITE_WIDTH-1 && actor->getX() >= x && actor->getY() <= y+SPRITE_HEIGHT-1 && actor->getY() >= y)
-//                return true;
-//            if (actor->getX()+SPRITE_WIDTH-1 <=x+SPRITE_WIDTH-1 && actor->getX()+SPRITE_WIDTH-1 >= x && actor->getY() <= y+SPRITE_HEIGHT-1 && actor->getY() >= y)
-//                return true;
-//            if (actor->getX()+SPRITE_WIDTH-1 <= x+SPRITE_WIDTH-1 && actor->getX() + SPRITE_WIDTH-1 >= x && actor->getY()+SPRITE_HEIGHT-1 <= y+SPRITE_HEIGHT-1 && actor->getY()+SPRITE_HEIGHT-1 >= y)
-//                return true;
-//            if (actor->getX() <= x+SPRITE_WIDTH-1 && actor->getX()>= x && actor->getY()+SPRITE_HEIGHT-1 <= y+SPRITE_HEIGHT-1 && actor->getY()+SPRITE_HEIGHT-1 >= y)
-//                return true;
-//        }
-        if (actor->isStructure())
+        if (x < actor->getX()+SPRITE_WIDTH-1 && x+SPRITE_WIDTH-1 > actor->getX())
         {
-            if (x < actor->getX()+SPRITE_WIDTH-1 && x+SPRITE_WIDTH-1 > actor->getX())
+            if (y < actor->getY()+SPRITE_WIDTH-1 && y+SPRITE_WIDTH-1 > actor->getY())
             {
-                if (y < actor->getY()+SPRITE_WIDTH-1 && y+SPRITE_WIDTH-1 > actor->getY())
+                actor->bonk();
+
+                if (actor->isStructure())
+                {
                     return true;
+                }
             }
         }
     }
     return false;
     
+    //        if (actor->isStructure())
+    //        {
+    //            if (actor->getX() <= x+SPRITE_WIDTH-1 && actor->getX() >= x && actor->getY() <= y+SPRITE_HEIGHT-1 && actor->getY() >= y)
+    //                return true;
+    //            if (actor->getX()+SPRITE_WIDTH-1 <=x+SPRITE_WIDTH-1 && actor->getX()+SPRITE_WIDTH-1 >= x && actor->getY() <= y+SPRITE_HEIGHT-1 && actor->getY() >= y)
+    //                return true;
+    //            if (actor->getX()+SPRITE_WIDTH-1 <= x+SPRITE_WIDTH-1 && actor->getX() + SPRITE_WIDTH-1 >= x && actor->getY()+SPRITE_HEIGHT-1 <= y+SPRITE_HEIGHT-1 && actor->getY()+SPRITE_HEIGHT-1 >= y)
+    //                return true;
+    //            if (actor->getX() <= x+SPRITE_WIDTH-1 && actor->getX()>= x && actor->getY()+SPRITE_HEIGHT-1 <= y+SPRITE_HEIGHT-1 && actor->getY()+SPRITE_HEIGHT-1 >= y)
+    //                return true;
+    //        }
+    
+}
+
+void StudentWorld::addActor(Actor* actor)
+{
+    m_gameActors.push_back(actor);
 }

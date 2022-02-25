@@ -89,6 +89,8 @@ void Peach::doSomething()
                         remaining_jump_distance = 12;
                     else
                         remaining_jump_distance = 8;
+//                        remaining_jump_distance = 16;
+
                     getWorld()->playSound(SOUND_PLAYER_JUMP);
                 }
                 break;
@@ -98,20 +100,54 @@ void Peach::doSomething()
     }
 }
 
+//void Peach::bonk()
+//{}
 
 Block::Block(int startX, int startY,StudentWorld* world,int special): Structure(IID_BLOCK, startX, startY, world )
 {
     m_star = false;
     m_shroom = false;
     m_flower = false;
+    if (special != 0 ) m_powerUps = true;
     switch (special) {
         case 0:
             break;
         case 1:
             m_flower = true;
+            break;
+
         case 2:
             m_star = true;
+            break;
         case 3:
             m_shroom = true;
+            break;
+
     }
+}
+void Block::bonk()
+{
+    if (m_powerUps)
+    {
+        getWorld()->playSound(SOUND_POWERUP_APPEARS);
+        if (m_flower) getWorld()->addActor(new Flowers(getX(),getY()+8,getWorld()));
+        if (m_star) getWorld()->addActor(new Stars(getX(),getY()+8,getWorld()));
+        if (m_shroom) getWorld()->addActor(new Mushrooms(getX(),getY()+8,getWorld()));
+    }
+    else
+    {
+        getWorld()->playSound(SOUND_PLAYER_BONK);
+        return;
+    }
+    m_powerUps = false;
+}
+
+void Flag::bonk()
+{
+    getWorld()->nextLevel();
+}
+
+void Mario::bonk()
+{
+    getWorld()->endgame();
 }
