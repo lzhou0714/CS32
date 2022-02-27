@@ -42,8 +42,8 @@ private:
     void placeObjects(Level lev);
     bool m_gameComplete;
     bool m_levelComplete;
-    string m_mainStatusText;
-    string m_powerUpsStatusText;
+    string m_StatusText;
+//    string m_powerUpsStatusText;
 //    int m_targetX;
 //    int m_targetY;
     

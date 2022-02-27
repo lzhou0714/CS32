@@ -14,11 +14,13 @@ public:
     virtual ~Actor() {}
     virtual void doSomething() = 0;
     virtual void bonk() {};
+    virtual void takeDamage(){};
+    
+    virtual bool isStructure(){return false;}//things that are structures can't overlap
     
     bool isAlive() const {return m_alive;}
-    void setAlive(bool status) {m_alive = status;}
     bool isTarget() {return false;}
-    virtual bool isStructure(){return false;}//things that are structures can't overlap
+    void setAlive(bool status) {m_alive = status;}
     StudentWorld* getWorld() const {return m_world;}
   
 private:
@@ -35,7 +37,10 @@ public:
     virtual ~Peach() {}
     virtual void doSomething();
     virtual void bonk() {};
-    void gainInvincibility(int ticks) {m_starPower = true;};
+    void gainInvincibility(int ticks) {
+        remaining_invincibility = ticks;
+        m_starPower = true;
+    };
       // Grant Peach Shoot Power.
     void gainShootPower() {m_shootPower = true;}
     // Grant Peach Jump Power.
@@ -53,10 +58,12 @@ public:
 private:
     bool m_inv;
     int m_hp;
+    int remaining_jump_distance;
+    int remaining_invincibility;
+    int time_to_recharge;
     bool m_starPower;
     bool m_shootPower;
     bool m_jumpPower;
-    int remaining_jump_distance;
     void jumping();
     void falling();
 
@@ -107,7 +114,9 @@ public:
     virtual ~Target() {};
     virtual bool isTarget(){return true;}
     virtual void bonk() {};
-    virtual void doSomething() {};
+    virtual void doSomething();
+    virtual void doSomethingAux() = 0;
+    
 
 };
 class Flag: public Target
@@ -115,9 +124,9 @@ class Flag: public Target
 public:
     Flag(int startX, int startY, StudentWorld* world ): Target( IID_FLAG, startX, startY,world){}
     virtual ~Flag() {cerr << "destructing a Flag" << endl;};
-    virtual void bonk();
+//    virtual void bonk();
 
-    virtual void doSomething() {};
+    virtual void doSomethingAux();
 
 };
 class Mario: public Target
@@ -125,8 +134,8 @@ class Mario: public Target
 public:
     Mario(int startX, int startY, StudentWorld* world ): Target(IID_MARIO, startX, startY,world){}
     virtual ~Mario() {cerr << "destructing a mario" << endl;};
-    virtual void doSomething() {};
-    virtual void bonk();
+    virtual void doSomethingAux();
+//    virtual void bonk();
     
 };
 
@@ -174,14 +183,14 @@ public:
     Projectiles(int imageID, int startX, int startY,StudentWorld* world, int dir): Actor(imageID, startX, startY,  dir, 1, world){}
     virtual ~Projectiles() {};
     virtual void bonk() {};
-    virtual void doSomething() {};
+    virtual void doSomething();
 };
 class PeachFireBalls: public Projectiles
 {
 public:
     PeachFireBalls(int startX, int startY, int dir, StudentWorld* world): Projectiles(IID_PEACH_FIRE, startX, startY,world,dir){}
     virtual ~PeachFireBalls() {cerr << "destructing a PeachFireBalls" << endl;};
-    virtual void doSomething() {};
+//    virtual void doSomething() {};
 
 };
 class PiranhasFireBalls: public Projectiles
@@ -189,7 +198,7 @@ class PiranhasFireBalls: public Projectiles
 public:
     PiranhasFireBalls(int startX, int startY, int dir, StudentWorld* world): Projectiles(IID_PIRANHA_FIRE, startX, startY,world,dir){}
     virtual ~PiranhasFireBalls() {cerr << "destructing a PiranhrasFireBalls" << endl;};
-    virtual void doSomething() {};
+//    virtual void doSomething() {};
 
 };
 class Shells: public Projectiles

@@ -22,6 +22,8 @@ Peach::Peach(int startX, int startY,StudentWorld* world ):
     m_shootPower = false;
     m_jumpPower = false;
     remaining_jump_distance = 0;
+    time_to_recharge = 0;
+
 }
 
 void Peach::jumping()
@@ -55,14 +57,22 @@ void Peach::doSomething()
 {
     if (!isAlive())
         return;
-    int val;
+    if (isInvincible())
+    {
+        remaining_invincibility--;
+        if (remaining_invincibility ==0)
+            m_starPower = false;
+    }
     if (remaining_jump_distance>0)
         jumping();
     else
         falling();
+    if (time_to_recharge>0)
+        time_to_recharge--;
+    int val;
     if (getWorld()->getKey(val))
     {
-         Actor* blocker;
+         Actor* blocker = nullptr;
         switch(val)
         {
             case KEY_PRESS_LEFT:
@@ -93,12 +103,6 @@ void Peach::doSomething()
                 }
                 break;
             }
-            case KEY_PRESS_DOWN:
-            {
-                if (!getWorld()->positionBlocked(getX(), getY()-4, blocker))
-                    moveTo(getX(), getY()-4);
-                break;
-            }
             case KEY_PRESS_UP:
             {
                 if (remaining_jump_distance !=0)
@@ -110,10 +114,26 @@ void Peach::doSomething()
                         remaining_jump_distance = 12;
                     else
                         remaining_jump_distance = 8;
-//                        remaining_jump_distance = 16;
+//                        remaining_jump_distance = 80;
                     cerr << "playing jump sound" << endl;
                     getWorld()->playSound(SOUND_PLAYER_JUMP);
                 }
+                break;
+            }
+            case KEY_PRESS_SPACE:
+            {
+                if (hasShootPower() && time_to_recharge==0)
+                {
+                    getWorld()->playSound(SOUND_PLAYER_FIRE);
+                    int x;
+                    if (getDirection() == 0)
+                        x= getX()+4;
+                    else
+                        x = getX()-4;
+                    getWorld()->addActor(new PeachFireBalls(x,getY(),getDirection(),getWorld()));
+                    time_to_recharge = 8;
+                }
+                
                 break;
             }
         }
@@ -166,26 +186,67 @@ void Block::bonk()
     m_powerUps = false;
 }
 
-void Flag::bonk()
+void Target::doSomething()
+{
+    if (!isAlive())
+        return;
+    if (getWorld()->overlapsPeach(getX(), getY()))
+    {
+        getWorld()->increaseScore(1000);
+        setAlive(false);
+        doSomethingAux();
+    }
+
+}
+void Flag::doSomethingAux()
 {
     getWorld()->nextLevel();
+
 }
-
-
-void Mario::bonk()
+void Mario::doSomethingAux()
 {
+    getWorld()->increaseScore(1000);
     getWorld()->endgame();
 }
+
  
 //powerups///////////////////////////////
 void PowerUps::doSomething()
 {
+    
     if (getWorld()->overlapsPeach(getX(), getY()))
     {
         getWorld()->playSound(SOUND_PLAYER_POWERUP);
         doSomethingAux();
         setAlive(false);
+        return; //returns if overlaps peach
     }
+    Actor* blocker1 = nullptr;
+    Actor* blocker2 = nullptr;
+    if (!getWorld()->positionBlocked(getX(), getY()-2, blocker1))
+        moveTo(getX(), getY()-2);
+    if (getDirection() == 0)
+    {
+        if (!getWorld()->positionBlocked(getX()+2, getY(), blocker2) || (blocker2 !=nullptr && !blocker2->isStructure()))
+            moveTo(getX()+2, getY());
+        else if (blocker2->isStructure())
+        {
+            setDirection(180);
+            return;
+        }
+    }
+    else
+    {
+        if (!getWorld()->positionBlocked(getX()-2, getY(), blocker2)|| (blocker2 !=nullptr && !blocker2->isStructure()))
+            moveTo(getX()-2, getY());
+        else if (blocker2->isStructure())
+        {
+            setDirection(0);
+            return;
+        }
+    }
+    
+    
 }
 void Mushrooms::doSomethingAux()
 {
@@ -206,4 +267,36 @@ void Flowers::doSomethingAux()
     getWorld()->increaseScore(50);
     getWorld()->grantShootPower();
     getWorld()->setPeachHP(2);
+}
+
+void Projectiles::doSomething()
+{
+    Actor* blocker1 = nullptr;
+    Actor* blocker2 = nullptr;
+
+    if (!getWorld()->positionBlocked(getX(), getY()-2, blocker1))
+        moveTo(getX(), getY()-2);
+//    if (blocker1!=nullptr && blocker1->isStructure())
+    {
+        if (getDirection() == 0)
+        {
+            if (!getWorld()->positionBlocked(getX()+2, getY(), blocker2) || (blocker2 !=nullptr && !blocker2->isStructure()))
+                moveTo(getX()+2, getY());
+        }
+        else
+        {
+            if (!getWorld()->positionBlocked(getX()-2, getY(), blocker2)|| (blocker2 !=nullptr && !blocker2->isStructure()))
+                moveTo(getX()-2, getY());
+        }
+        if (blocker2 !=nullptr && blocker2->isStructure())
+        {
+            setAlive(false);
+        }
+            
+    }
+    //check if the object that blocks the object is peach
+//    if (blocker2!=nullptr)
+//    {
+//        if (blocker2)
+//    }
 }

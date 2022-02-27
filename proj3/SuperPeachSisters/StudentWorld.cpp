@@ -24,8 +24,7 @@ StudentWorld::StudentWorld(string assetPath)
     ostringstream text;
     text << "Lives: " << getLives() << "  Level: " <<getLevel() << " Points: "<< getScore();
     
-    m_mainStatusText = text.str();
-    m_powerUpsStatusText = "";
+    m_StatusText = text.str();
 
 }
 
@@ -120,7 +119,15 @@ int StudentWorld::move()
     // Notice that the return value GWSTATUS_PLAYER_DIED will cause our framework to end the current level.
     ostringstream text;
     text << "Lives: " << getLives() << "  Level: " <<getLevel() << " Points: "<< getScore();
-    m_mainStatusText = text.str();
+    m_StatusText = text.str();
+    if (m_player->isInvincible())
+        m_StatusText += " StarPower!";
+    if (m_player->hasShootPower())
+        m_StatusText += " ShootPower!";
+    if (m_player->hasJumpPower())
+        m_StatusText += " JumpPower!";
+
+
     
     m_player->doSomething();
     for (auto const& actor: m_gameActors)
@@ -160,7 +167,7 @@ int StudentWorld::move()
         
     }
     
-    setGameStatText(m_mainStatusText+m_powerUpsStatusText);
+    setGameStatText(m_StatusText);
 
     return GWSTATUS_CONTINUE_GAME;
 }
@@ -188,6 +195,7 @@ bool StudentWorld::positionBlocked(int x, int y,  Actor*& blocker)
         }
         
     }
+    blocker = nullptr;
     
     return false;
     //        if (actor->isStructure())
@@ -240,7 +248,7 @@ void StudentWorld::grantShootPower()
     if (!m_player->hasShootPower())
     {
         m_player->gainShootPower();
-        m_powerUpsStatusText =  m_powerUpsStatusText + " ShootPower!";
+//        m_powerUpsStatusText =  m_powerUpsStatusText + " ShootPower!";
     }
     
 }
@@ -250,7 +258,7 @@ void StudentWorld::grantJumpPower()
     if (!m_player->hasJumpPower())
     {
         m_player->gainJumpPower();
-        m_powerUpsStatusText  =m_powerUpsStatusText + " JumpPower!";
+//        m_powerUpsStatusText  =m_powerUpsStatusText + " JumpPower!";
     }
 
 
@@ -261,7 +269,7 @@ void StudentWorld::grantInvincibility(int ticks)
     if (!m_player->isInvincible())
     {
         m_player->gainInvincibility(ticks);
-        m_powerUpsStatusText  =m_powerUpsStatusText + " StarPower!";
+//        m_powerUpsStatusText  =m_powerUpsStatusText + " StarPower!";
 
     }
     
