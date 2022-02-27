@@ -191,12 +191,22 @@ bool StudentWorld::positionBlocked(int x, int y,  Actor*& blocker)
     {
         if (checkOverlap(x, y, actor))
         {
-            blocker = actor;
-            return true;
+            if (actor->isStructure())
+            {
+                blocker = actor;
+                return true;
+            }
+            else if (actor->isEnemy())
+            {
+                blocker = actor;
+            }
+                
+
         }
         
+        
     }
-    blocker = nullptr;
+//    blocker = nullptr;
     
     return false;
     //        if (actor->isStructure())
@@ -233,12 +243,15 @@ bool StudentWorld::checkOverlap(int x,int y,Actor* actor) const
     {
         if (y < actor->getY()+SPRITE_HEIGHT-1 && y+SPRITE_HEIGHT-1 > actor->getY())
         {
+            if (actor->isAlive())
 
-            if (actor->isStructure())
-            {
-                return true;
-            }
-            else if (actor == m_player)
+//            if (actor->isStructure())
+//            {
+//                return true;
+//            }
+//            else if (actor == m_player)
+//                return true;
+//            else if (actor->isEnemy())
                 return true;
         }
     }

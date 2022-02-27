@@ -21,6 +21,7 @@ public:
     bool checkOverlap(int x,int y,Actor* a) const;
     bool overlapsPeach(int x,int y, Actor*& actor) const;
     bool positionBlocked(int x, int y,  Actor*& blocker);
+    Peach* getPeach() const {return m_player;}
     void addActor(Actor* actor);
     void endgame(){m_gameComplete = true;}
     void nextLevel() {m_levelComplete = true;}

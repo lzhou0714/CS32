@@ -17,9 +17,12 @@ public:
     virtual void takeDamage(){};
     
     virtual bool isStructure(){return false;}//things that are structures can't overlap
+    virtual bool isEnemy() {return false;}
+    virtual bool isTarget() {return false;}
+
+
     
     bool isAlive() const {return m_alive;}
-    bool isTarget() {return false;}
     void setAlive(bool status) {m_alive = status;}
     StudentWorld* getWorld() const {return m_world;}
   
@@ -42,10 +45,21 @@ public:
         m_starPower = true;
     };
       // Grant Peach Shoot Power.
-    void gainShootPower() {m_shootPower = true;}
+    void gainShootPower() {
+        if (m_hp == 1)
+            m_hp++;
+        m_shootPower = true;
+        
+    }
     // Grant Peach Jump Power.
-    void gainJumpPower() {m_jumpPower = true;}
+    void gainJumpPower() {
+        if (m_hp == 1)
+            m_hp++;
+        m_jumpPower = true;
+        
+    }
     // Is Peach invincible?
+    bool isTempInvincible() const {return (temp_invincibility !=0);}
     bool isInvincible() const {return m_starPower;}
     // Does Peach have Shoot Power?
     bool hasShootPower() const {return m_shootPower;}
@@ -185,6 +199,7 @@ public:
     virtual ~Projectiles() {};
     virtual void bonk() {};
     virtual void doSomething();
+    virtual void doSomethingAux(Actor* blocker);
 };
 class PeachFireBalls: public Projectiles
 {
@@ -199,7 +214,8 @@ class PiranhasFireBalls: public Projectiles
 public:
     PiranhasFireBalls(int startX, int startY, int dir, StudentWorld* world): Projectiles(IID_PIRANHA_FIRE, startX, startY,world,dir){}
     virtual ~PiranhasFireBalls() {cerr << "destructing a PiranhrasFireBalls" << endl;};
-//    virtual void doSomething() {};
+    virtual void doSomethingAux(Actor* blocker);
+
 
 };
 class Shells: public Projectiles
@@ -207,7 +223,6 @@ class Shells: public Projectiles
 public:
     Shells(int startX, int startY, StudentWorld* world,int dir): Projectiles(IID_SHELL, startX, startY,world,dir){}
     virtual ~Shells() {cerr << "destructing a Shells" << endl;};
-    virtual void doSomething() {};
 };
 
 
@@ -220,6 +235,8 @@ public:
     virtual ~Enemies() {};
     virtual void doSomething();
     virtual void bonk();
+    virtual void takeDamage();
+    virtual bool isEnemy() {return true;}
 
 };
 class Goombas: public Enemies
@@ -235,18 +252,25 @@ class Koopas: public Enemies
 public:
     Koopas(int startX, int startY,StudentWorld* world, int dir): Enemies(IID_KOOPA, startX,startY,world,dir){}
     virtual ~Koopas() {};
+    virtual void takeDamage(); //introduce shell
+
 //    virtual void doSomething() {};
 
 };
 class Piranhas: public Enemies
 {
 public:
-    Piranhas(int startX, int startY,StudentWorld* world, int dir): Enemies(IID_PIRANHA, startX,startY,world,dir){}
+    Piranhas(int startX, int startY,StudentWorld* world, int dir): Enemies(IID_PIRANHA, startX,startY,world,dir){ m_firingDelay =0;}
     virtual ~Piranhas() {};
     virtual void doSomething();
+private:
+    int m_firingDelay;
+    
+    
 };
 
 
 
 // Students:  Add code to this file, Actor.cpp, StudentWorld.h, and StudentWorld.cpp
+
 #endif // ACTOR_H_

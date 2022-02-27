@@ -64,6 +64,8 @@ void Peach::doSomething()
         if (remaining_invincibility ==0)
             m_starPower = false;
     }
+    if (isTempInvincible())
+        temp_invincibility--;
     
     Actor* blocker  = nullptr;
     //sus////////////////////////
@@ -156,10 +158,14 @@ void Peach::bonk()
     if (isInvincible())
         return;
     m_hp--;
+    temp_invincibility = 10;
     m_shootPower = false;
     m_jumpPower = false;
     if (m_hp>0)
+    {
+        cerr << "m_hp: " << m_hp << endl;
         getWorld()->playSound(SOUND_PLAYER_HURT);
+    }
     else
     {
         setAlive(false);
@@ -296,34 +302,57 @@ void Flowers::doSomethingAux()
 
 void Projectiles::doSomething()
 {
+    if (!isAlive())
+        return;
     Actor* blocker1 = nullptr;
     Actor* blocker2 = nullptr;
 
+    
+    if (!getWorld()->positionBlocked(getX(), getY(), blocker1) && blocker1!=nullptr)
+        doSomethingAux(blocker1);
     if (!getWorld()->positionBlocked(getX(), getY()-2, blocker1))
         moveTo(getX(), getY()-2);
 //    if (blocker1!=nullptr && blocker1->isStructure())
+    if (getDirection() == 0)
     {
-        if (getDirection() == 0)
-        {
-            if (!getWorld()->positionBlocked(getX()+2, getY(), blocker2) || (blocker2 !=nullptr && !blocker2->isStructure()))
-                moveTo(getX()+2, getY());
-        }
-        else
-        {
-            if (!getWorld()->positionBlocked(getX()-2, getY(), blocker2)|| (blocker2 !=nullptr && !blocker2->isStructure()))
-                moveTo(getX()-2, getY());
-        }
-        if (blocker2 !=nullptr && blocker2->isStructure())
+        if (!getWorld()->positionBlocked(getX()+2, getY(), blocker2) || (blocker2 !=nullptr && !blocker2->isStructure() && !blocker2->isEnemy()))
+            moveTo(getX()+2, getY());
+    }
+    else
+    {
+        if (!getWorld()->positionBlocked(getX()-2, getY(), blocker2)|| (blocker2 !=nullptr && !blocker2->isStructure() && !blocker2->isEnemy()))
+            moveTo(getX()-2, getY());
+    }
+    if (blocker2 !=nullptr && blocker2 !=this)
+    {
+        if (blocker2->isStructure())
         {
             setAlive(false);
+            return;
         }
-            
+        doSomethingAux(blocker2);
+
+
     }
-    //check if the object that blocks the object is peach
-//    if (blocker2!=nullptr)
-//    {
-//        if (blocker2)
-//    }
+
+//    check if the object that blocks the object is enemy
+
+}
+void Projectiles::doSomethingAux(Actor* blocker)
+{
+    if (blocker->isEnemy())
+    {
+        setAlive(false);
+        blocker->takeDamage();
+    }
+}
+
+void PiranhasFireBalls::doSomethingAux(Actor* peach)
+{
+    if (getWorld()->overlapsPeach(getX(), getY(), peach))
+    {
+        peach->bonk();
+    }
 }
 
 //Enemies///////////////////
@@ -331,11 +360,20 @@ void Enemies::doSomething()
 {
     if (!isAlive())
         return;
-    Actor* peach = nullptr;
-    if (getWorld()->overlapsPeach(getX(), getY(),peach))
+    Actor* bonker = nullptr;
+    if (getWorld()->overlapsPeach(getX(), getY(),bonker))
     {
+        Peach* peach = getWorld()->getPeach();
+        if (peach->isInvincible())
+        {
+            setAlive(false);
+            return;
+        }
+        if (!peach->isTempInvincible())
+        {
         peach->bonk();
         return;
+        }
     }
     Actor* blocker1;
     Actor* blocker2;
@@ -369,10 +407,25 @@ void Enemies::doSomething()
 
     }
     
+
 }
 void Enemies::bonk()
 {
     getWorld()->playSound(SOUND_PLAYER_KICK);
+}
+
+void Enemies::takeDamage()
+{
+    getWorld()->increaseScore(100);
+    setAlive(false);
+    
+}
+
+void Koopas::takeDamage()
+{
+    getWorld()->increaseScore(100);
+    setAlive(false);
+    getWorld()->addActor(new Shells(getX(),getY(),getWorld(),getDirection()));
 }
 
 void Piranhas::doSomething()
@@ -380,4 +433,34 @@ void Piranhas::doSomething()
     if (!isAlive())
         return;
     increaseAnimationNumber();
+    Actor* peach = nullptr;
+    if (getWorld()->overlapsPeach(getX(), getY(),peach))
+    {
+        peach->bonk();
+        return;
+    }
+    if ((getWorld()->getPeach()->getY()) <= getY()+ 1.5*SPRITE_HEIGHT && (getWorld()->getPeach()->getY()) >= getY()-1.5*SPRITE_HEIGHT  )
+    {
+        if ((getWorld()->getPeach()->getX())<getX())
+        {
+            setDirection(180);
+        }
+        else
+            setDirection(0);
+        if (m_firingDelay>0)
+        {
+            m_firingDelay--;
+            return;
+        }
+        else if ((getWorld()->getPeach()->getX()) <= getX()+ 8*SPRITE_WIDTH && (getWorld()->getPeach()->getX()) >= getX()-8*SPRITE_WIDTH  )
+        {
+            getWorld()->addActor(new PiranhasFireBalls(getX(),getY(),getDirection(),getWorld()));
+            getWorld()->playSound(SOUND_PLAYER_FIRE);
+            m_firingDelay = 40;
+        }
+        
+    }
+    else
+        return;
+    
 }
