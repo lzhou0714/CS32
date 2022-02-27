@@ -57,16 +57,26 @@ void Peach::doSomething()
 {
     if (!isAlive())
         return;
+    
     if (isInvincible())
     {
         remaining_invincibility--;
         if (remaining_invincibility ==0)
             m_starPower = false;
     }
+    
+    Actor* blocker  = nullptr;
+    //sus////////////////////////
+    if (getWorld()->positionBlocked(getX(), getY(), blocker))
+    {
+        blocker->bonk();
+    }
+    ///////////////////////////////////////////
     if (remaining_jump_distance>0)
         jumping();
     else
         falling();
+    
     if (time_to_recharge>0)
         time_to_recharge--;
     int val;
@@ -141,9 +151,22 @@ void Peach::doSomething()
     }
 }
 
-//void Peach::bonk()
-//{}
+void Peach::bonk()
+{
+    if (isInvincible())
+        return;
+    m_hp--;
+    m_shootPower = false;
+    m_jumpPower = false;
+    if (m_hp>0)
+        getWorld()->playSound(SOUND_PLAYER_HURT);
+    else
+    {
+        setAlive(false);
+    }
+}
 
+//Block////////////////////////
 Block::Block(int startX, int startY,StudentWorld* world,int special): Structure(IID_BLOCK, startX, startY, world )
 {
     m_star = false;
@@ -186,11 +209,13 @@ void Block::bonk()
     m_powerUps = false;
 }
 
+//Target/////////////////
 void Target::doSomething()
 {
     if (!isAlive())
         return;
-    if (getWorld()->overlapsPeach(getX(), getY()))
+    Actor* bonker = nullptr;
+    if (getWorld()->overlapsPeach(getX(), getY(),bonker))
     {
         getWorld()->increaseScore(1000);
         setAlive(false);
@@ -213,8 +238,8 @@ void Mario::doSomethingAux()
 //powerups///////////////////////////////
 void PowerUps::doSomething()
 {
-    
-    if (getWorld()->overlapsPeach(getX(), getY()))
+    Actor* bonker = nullptr;
+    if (getWorld()->overlapsPeach(getX(), getY(),bonker))
     {
         getWorld()->playSound(SOUND_PLAYER_POWERUP);
         doSomethingAux();
@@ -299,4 +324,60 @@ void Projectiles::doSomething()
 //    {
 //        if (blocker2)
 //    }
+}
+
+//Enemies///////////////////
+void Enemies::doSomething()
+{
+    if (!isAlive())
+        return;
+    Actor* peach = nullptr;
+    if (getWorld()->overlapsPeach(getX(), getY(),peach))
+    {
+        peach->bonk();
+        return;
+    }
+    Actor* blocker1;
+    Actor* blocker2;
+    if (getDirection() == 0)
+    {
+        bool blocked = getWorld()->positionBlocked(getX()+1, getY(), blocker2);
+        if (!getWorld()->positionBlocked(getX()+1+SPRITE_WIDTH, getY()-2, blocker1) || (blocker2 !=nullptr && blocker2->isStructure()))
+        {
+            setDirection(180);
+            return;
+        }
+        else if (!blocked || (blocker2 !=nullptr && !blocker2->isStructure()))
+        {
+            moveTo(getX()+1, getY());
+        }
+    }
+    else
+    {
+        bool blocked = getWorld()->positionBlocked(getX()-1, getY(), blocker2);
+
+        if (!getWorld()->positionBlocked(getX()-1-SPRITE_WIDTH, getY()-2, blocker1) || (blocker2 !=nullptr && blocker2->isStructure()))
+        {
+            setDirection(0);
+            return;
+        }
+        else if (!blocked|| (blocker2 !=nullptr && !blocker2->isStructure()))
+        {
+
+            moveTo(getX()-1, getY());
+        }
+
+    }
+    
+}
+void Enemies::bonk()
+{
+    getWorld()->playSound(SOUND_PLAYER_KICK);
+}
+
+void Piranhas::doSomething()
+{
+    if (!isAlive())
+        return;
+    increaseAnimationNumber();
 }

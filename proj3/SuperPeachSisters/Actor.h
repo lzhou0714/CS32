@@ -36,7 +36,7 @@ public:
     Peach(int startX, int startY, StudentWorld* world  );
     virtual ~Peach() {}
     virtual void doSomething();
-    virtual void bonk() {};
+    virtual void bonk();
     void gainInvincibility(int ticks) {
         remaining_invincibility = ticks;
         m_starPower = true;
@@ -60,6 +60,7 @@ private:
     int m_hp;
     int remaining_jump_distance;
     int remaining_invincibility;
+    int temp_invincibility;
     int time_to_recharge;
     bool m_starPower;
     bool m_shootPower;
@@ -217,8 +218,8 @@ public:
     Enemies(int imageID, int startX, int startY,StudentWorld* world, int dir): Actor(imageID, startX, startY,  dir, 1, world){}
     //direction randomly chosen to be either 0 or 180
     virtual ~Enemies() {};
-    virtual void doSomething() {};
-    virtual void bonk() {};
+    virtual void doSomething();
+    virtual void bonk();
 
 };
 class Goombas: public Enemies
@@ -226,7 +227,7 @@ class Goombas: public Enemies
 public:
     Goombas(int startX, int startY,StudentWorld* world, int dir): Enemies(IID_GOOMBA, startX,startY,world,dir){}
     virtual ~Goombas() {};
-    virtual void doSomething() {};
+//    virtual void doSomething() {};
 
 };
 class Koopas: public Enemies
@@ -234,7 +235,7 @@ class Koopas: public Enemies
 public:
     Koopas(int startX, int startY,StudentWorld* world, int dir): Enemies(IID_KOOPA, startX,startY,world,dir){}
     virtual ~Koopas() {};
-    virtual void doSomething() {};
+//    virtual void doSomething() {};
 
 };
 class Piranhas: public Enemies
@@ -242,7 +243,7 @@ class Piranhas: public Enemies
 public:
     Piranhas(int startX, int startY,StudentWorld* world, int dir): Enemies(IID_PIRANHA, startX,startY,world,dir){}
     virtual ~Piranhas() {};
-    virtual void doSomething() {};
+    virtual void doSomething();
 };
 
 

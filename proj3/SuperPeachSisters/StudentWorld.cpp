@@ -138,6 +138,7 @@ int StudentWorld::move()
             if (!m_player->isAlive())
             {
                 playSound(SOUND_PLAYER_DIE);
+                decLives();
                 return GWSTATUS_PLAYER_DIED;
             }
             //need something here to check for overlap with targts
@@ -217,10 +218,13 @@ void StudentWorld::addActor(Actor* actor)
 {
     m_gameActors.push_back(actor);
 }
-bool StudentWorld::overlapsPeach(int x,int y) const
+bool StudentWorld::overlapsPeach(int x,int y, Actor*& actor) const
 {
     if (checkOverlap(x,y,m_player))
+    {
+        actor  = m_player;
          return true;
+    }
      return false;
 }
 bool StudentWorld::checkOverlap(int x,int y,Actor* actor) const

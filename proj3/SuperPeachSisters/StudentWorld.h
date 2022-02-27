@@ -19,7 +19,7 @@ public:
   virtual int move();
   virtual void cleanUp();
     bool checkOverlap(int x,int y,Actor* a) const;
-    bool overlapsPeach(int x,int y) const;
+    bool overlapsPeach(int x,int y, Actor*& actor) const;
     bool positionBlocked(int x, int y,  Actor*& blocker);
     void addActor(Actor* actor);
     void endgame(){m_gameComplete = true;}
