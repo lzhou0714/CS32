@@ -21,6 +21,12 @@ StudentWorld::StudentWorld(string assetPath)
     m_player = nullptr;
     m_gameComplete = false;
     m_levelComplete = false;
+    ostringstream text;
+    text << "Lives: " << getLives() << "  Level: " <<getLevel() << " Points: "<< getScore();
+    
+    m_mainStatusText = text.str();
+    m_powerUpsStatusText = "";
+
 }
 
 int StudentWorld::init()
@@ -86,7 +92,8 @@ void StudentWorld::placeObjects(Level lev)
                 m_gameActors.push_back(new Block(i*SPRITE_WIDTH,j*SPRITE_HEIGHT,this,1));
 
                 break;
-            case Level::star_goodie_block:                m_gameActors.push_back(new Block(i*SPRITE_WIDTH,j*SPRITE_HEIGHT,this,2));
+            case Level::star_goodie_block:
+                m_gameActors.push_back(new Block(i*SPRITE_WIDTH,j*SPRITE_HEIGHT,this,2));
 
                 break;
             case Level::mushroom_goodie_block:
@@ -111,6 +118,9 @@ int StudentWorld::move()
 {
     // This code is here merely to allow the game to build, run, and terminate after you hit enter.
     // Notice that the return value GWSTATUS_PLAYER_DIED will cause our framework to end the current level.
+    ostringstream text;
+    text << "Lives: " << getLives() << "  Level: " <<getLevel() << " Points: "<< getScore();
+    m_mainStatusText = text.str();
     
     m_player->doSomething();
     for (auto const& actor: m_gameActors)
@@ -136,11 +146,22 @@ int StudentWorld::move()
                 playSound(SOUND_FINISHED_LEVEL);
                 return GWSTATUS_FINISHED_LEVEL;
             }
-            
-                
 
         }
+
     }
+    for (auto actor = m_gameActors.begin(); actor!= m_gameActors.end(); actor++)
+    {
+        if (!(*actor)->isAlive())
+        {
+            delete *actor;
+            m_gameActors.erase(actor);
+        }
+        
+    }
+    
+    setGameStatText(m_mainStatusText+m_powerUpsStatusText);
+
     return GWSTATUS_CONTINUE_GAME;
 }
 
@@ -155,26 +176,20 @@ void StudentWorld::cleanUp()
     m_gameActors.clear();
 }
 
-bool StudentWorld::positionBlocked(int x, int y)
+bool StudentWorld::positionBlocked(int x, int y,  Actor*& blocker)
 {
     
-    for(auto const& actor : m_gameActors)
+    for(auto & actor : m_gameActors)
     {
-        if (x < actor->getX()+SPRITE_WIDTH-1 && x+SPRITE_WIDTH-1 > actor->getX())
+        if (checkOverlap(x, y, actor))
         {
-            if (y < actor->getY()+SPRITE_WIDTH-1 && y+SPRITE_WIDTH-1 > actor->getY())
-            {
-                actor->bonk();
-
-                if (actor->isStructure())
-                {
-                    return true;
-                }
-            }
+            blocker = actor;
+            return true;
         }
+        
     }
-    return false;
     
+    return false;
     //        if (actor->isStructure())
     //        {
     //            if (actor->getX() <= x+SPRITE_WIDTH-1 && actor->getX() >= x && actor->getY() <= y+SPRITE_HEIGHT-1 && actor->getY() >= y)
@@ -189,7 +204,65 @@ bool StudentWorld::positionBlocked(int x, int y)
     
 }
 
+
 void StudentWorld::addActor(Actor* actor)
 {
     m_gameActors.push_back(actor);
+}
+bool StudentWorld::overlapsPeach(int x,int y) const
+{
+    if (checkOverlap(x,y,m_player))
+         return true;
+     return false;
+}
+bool StudentWorld::checkOverlap(int x,int y,Actor* actor) const
+{
+    if (x < actor->getX()+SPRITE_WIDTH-1 && x+SPRITE_WIDTH-1 > actor->getX())
+    {
+        if (y < actor->getY()+SPRITE_HEIGHT-1 && y+SPRITE_HEIGHT-1 > actor->getY())
+        {
+
+            if (actor->isStructure())
+            {
+                return true;
+            }
+            else if (actor == m_player)
+                return true;
+        }
+    }
+    return false;
+}
+
+
+
+void StudentWorld::grantShootPower()
+{
+    if (!m_player->hasShootPower())
+    {
+        m_player->gainShootPower();
+        m_powerUpsStatusText =  m_powerUpsStatusText + " ShootPower!";
+    }
+    
+}
+
+void StudentWorld::grantJumpPower()
+{
+    if (!m_player->hasJumpPower())
+    {
+        m_player->gainJumpPower();
+        m_powerUpsStatusText  =m_powerUpsStatusText + " JumpPower!";
+    }
+
+
+}
+
+void StudentWorld::grantInvincibility(int ticks)
+{
+    if (!m_player->isInvincible())
+    {
+        m_player->gainInvincibility(ticks);
+        m_powerUpsStatusText  =m_powerUpsStatusText + " StarPower!";
+
+    }
+    
 }

@@ -27,20 +27,26 @@ Peach::Peach(int startX, int startY,StudentWorld* world ):
 void Peach::jumping()
 {
 
-    if (!getWorld()->positionBlocked(getX(), getY()+4))
+     Actor* blocker;
+    if (!getWorld()->positionBlocked(getX(), getY()+4,blocker))
     {
         moveTo(getX(), getY()+4);
         remaining_jump_distance--;
     }
     else
+    {
+        if (blocker->isStructure())
+            blocker->bonk();
         remaining_jump_distance = 0;
+    }
     
 }
 void Peach::falling()
 {
+    Actor* blocker;
     for (int i  = 0;i<4;i++)
     {
-        if (getWorld()->positionBlocked(getX(), getY()-i))
+        if (getWorld()->positionBlocked(getX(), getY()-i,blocker))
             return;
     }
     moveTo(getX(), getY()-4);
@@ -56,25 +62,40 @@ void Peach::doSomething()
         falling();
     if (getWorld()->getKey(val))
     {
+         Actor* blocker;
         switch(val)
         {
             case KEY_PRESS_LEFT:
             {
                 setDirection(180);
-                if (!getWorld()->positionBlocked(getX()-4, getY()))
+                if (!getWorld()->positionBlocked(getX()-4, getY(), blocker))
+                {
                     moveTo(getX()-4, getY());
+                }
+                else
+                {
+                    if (blocker->isStructure())
+                        blocker->bonk();
+                }
                 break;
             }
             case KEY_PRESS_RIGHT:
             {
                 setDirection(0);
-                if (!getWorld()->positionBlocked(getX()+4, getY()))
+                if (!getWorld()->positionBlocked(getX()+4, getY(), blocker))
+                {
                     moveTo(getX()+4, getY());
+                }
+                else
+                {
+                    if (blocker->isStructure())
+                        blocker->bonk();
+                }
                 break;
             }
             case KEY_PRESS_DOWN:
             {
-                if (!getWorld()->positionBlocked(getX(), getY()-4))
+                if (!getWorld()->positionBlocked(getX(), getY()-4, blocker))
                     moveTo(getX(), getY()-4);
                 break;
             }
@@ -82,7 +103,7 @@ void Peach::doSomething()
             {
                 if (remaining_jump_distance !=0)
                     break;
-                if (getWorld()->positionBlocked(getX(), getY()-2))
+                if (getWorld()->positionBlocked(getX(), getY()-2, blocker))
                 {
 //                    cerr << "jumpsuppoerted" << endl;
                     if (m_jumpPower)
@@ -90,7 +111,7 @@ void Peach::doSomething()
                     else
                         remaining_jump_distance = 8;
 //                        remaining_jump_distance = 16;
-
+                    cerr << "playing jump sound" << endl;
                     getWorld()->playSound(SOUND_PLAYER_JUMP);
                 }
                 break;
@@ -129,6 +150,8 @@ void Block::bonk()
 {
     if (m_powerUps)
     {
+        cerr << "playing powerup sound" << endl;
+
         getWorld()->playSound(SOUND_POWERUP_APPEARS);
         if (m_flower) getWorld()->addActor(new Flowers(getX(),getY()+8,getWorld()));
         if (m_star) getWorld()->addActor(new Stars(getX(),getY()+8,getWorld()));
@@ -136,6 +159,7 @@ void Block::bonk()
     }
     else
     {
+        cerr << "block bonked" << endl;
         getWorld()->playSound(SOUND_PLAYER_BONK);
         return;
     }
@@ -147,7 +171,39 @@ void Flag::bonk()
     getWorld()->nextLevel();
 }
 
+
 void Mario::bonk()
 {
     getWorld()->endgame();
+}
+ 
+//powerups///////////////////////////////
+void PowerUps::doSomething()
+{
+    if (getWorld()->overlapsPeach(getX(), getY()))
+    {
+        getWorld()->playSound(SOUND_PLAYER_POWERUP);
+        doSomethingAux();
+        setAlive(false);
+    }
+}
+void Mushrooms::doSomethingAux()
+{
+    getWorld()->increaseScore(75);
+    getWorld()->grantJumpPower();
+    getWorld()->setPeachHP(2);
+}
+
+
+void Stars::doSomethingAux()
+{
+    getWorld()->increaseScore(100);
+    getWorld()->grantInvincibility(150);
+}
+
+void Flowers::doSomethingAux()
+{
+    getWorld()->increaseScore(50);
+    getWorld()->grantShootPower();
+    getWorld()->setPeachHP(2);
 }

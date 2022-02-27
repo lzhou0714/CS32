@@ -3,7 +3,9 @@
 
 #include "GraphObject.h"
 //#include "StudentWorld.h"
+using namespace std;
 class StudentWorld;
+
 
 class Actor: public GraphObject
 {
@@ -11,9 +13,9 @@ public:
     Actor(int imageID, int startX, int startY, int startDirection, int depth, StudentWorld* world );
     virtual ~Actor() {}
     virtual void doSomething() = 0;
-    virtual void bonk() = 0;
+    virtual void bonk() {};
     
-    bool isAlive() {return m_alive;}
+    bool isAlive() const {return m_alive;}
     void setAlive(bool status) {m_alive = status;}
     bool isTarget() {return false;}
     virtual bool isStructure(){return false;}//things that are structures can't overlap
@@ -33,6 +35,19 @@ public:
     virtual ~Peach() {}
     virtual void doSomething();
     virtual void bonk() {};
+    void gainInvincibility(int ticks) {m_starPower = true;};
+      // Grant Peach Shoot Power.
+    void gainShootPower() {m_shootPower = true;}
+    // Grant Peach Jump Power.
+    void gainJumpPower() {m_jumpPower = true;}
+    // Is Peach invincible?
+    bool isInvincible() const {return m_starPower;}
+    // Does Peach have Shoot Power?
+    bool hasShootPower() const {return m_shootPower;}
+    // Does Peach have Jump Power?
+    bool hasJumpPower() const {return m_jumpPower;}
+    void setHP(int hp) {m_hp = hp;};
+
     
 
 private:
@@ -53,7 +68,6 @@ public:
     virtual ~Structure() {};
     virtual void doSomething() {};
     virtual bool isStructure(){return true;}
-    virtual void bonk() {};
 
 };
 
@@ -79,7 +93,7 @@ class Pipe: public Structure
 {
 public:
     Pipe(int startX, int startY,StudentWorld* world ): Structure(IID_PIPE, startX, startY, world ) {}
-    virtual ~Pipe() {};
+    virtual ~Pipe() {cerr << "destructing a Pipe" << endl;};
     virtual void doSomething() {};
 private:
 
@@ -100,7 +114,7 @@ class Flag: public Target
 {
 public:
     Flag(int startX, int startY, StudentWorld* world ): Target( IID_FLAG, startX, startY,world){}
-    virtual ~Flag() {};
+    virtual ~Flag() {cerr << "destructing a Flag" << endl;};
     virtual void bonk();
 
     virtual void doSomething() {};
@@ -110,7 +124,7 @@ class Mario: public Target
 {
 public:
     Mario(int startX, int startY, StudentWorld* world ): Target(IID_MARIO, startX, startY,world){}
-    virtual ~Mario() {};
+    virtual ~Mario() {cerr << "destructing a mario" << endl;};
     virtual void doSomething() {};
     virtual void bonk();
     
@@ -123,7 +137,8 @@ public:
     PowerUps(int imageID, int startX, int startY,StudentWorld* world): Actor(imageID, startX, startY,  0, 1, world){}
     virtual ~PowerUps() {};
     virtual void bonk() {};
-    virtual void doSomething() {};
+    virtual void doSomething();
+    virtual void doSomethingAux() = 0;
 
 };
 class Flowers: public PowerUps
@@ -131,23 +146,25 @@ class Flowers: public PowerUps
 public:
     Flowers(int startX, int startY, StudentWorld* world ): PowerUps(IID_FLOWER, startX, startY,world){}
 
-    virtual ~Flowers() {};
-    virtual void doSomething() {};
+    virtual ~Flowers() {cerr << "destructing a Flowers" << endl;};
+    virtual void doSomethingAux();
 };
+
 class Mushrooms: public PowerUps
 {
 public:
     Mushrooms(int startX, int startY, StudentWorld* world ): PowerUps(IID_MUSHROOM, startX, startY,world){}
 
-    virtual ~Mushrooms() {};
-    virtual void doSomething() {};
+    virtual ~Mushrooms() {cerr << "destructing a mushrooms" << endl;};
+    virtual void doSomethingAux();
 };
 class Stars: public PowerUps
 {
 public:
     Stars(int startX, int startY, StudentWorld* world ): PowerUps(IID_STAR, startX, startY,world){}
-    virtual ~Stars() {};
-    virtual void doSomething() {};
+    virtual ~Stars() {cerr << "destructing a Stars" << endl;};
+    virtual void doSomethingAux();
+
 
 };
 //Projectiles///////////
@@ -163,7 +180,7 @@ class PeachFireBalls: public Projectiles
 {
 public:
     PeachFireBalls(int startX, int startY, int dir, StudentWorld* world): Projectiles(IID_PEACH_FIRE, startX, startY,world,dir){}
-    virtual ~PeachFireBalls() {};
+    virtual ~PeachFireBalls() {cerr << "destructing a PeachFireBalls" << endl;};
     virtual void doSomething() {};
 
 };
@@ -171,7 +188,7 @@ class PiranhasFireBalls: public Projectiles
 {
 public:
     PiranhasFireBalls(int startX, int startY, int dir, StudentWorld* world): Projectiles(IID_PIRANHA_FIRE, startX, startY,world,dir){}
-    virtual ~PiranhasFireBalls() {};
+    virtual ~PiranhasFireBalls() {cerr << "destructing a PiranhrasFireBalls" << endl;};
     virtual void doSomething() {};
 
 };
@@ -179,7 +196,7 @@ class Shells: public Projectiles
 {
 public:
     Shells(int startX, int startY, StudentWorld* world,int dir): Projectiles(IID_SHELL, startX, startY,world,dir){}
-    virtual ~Shells() {};
+    virtual ~Shells() {cerr << "destructing a Shells" << endl;};
     virtual void doSomething() {};
 };
 
